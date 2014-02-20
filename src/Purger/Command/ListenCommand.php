@@ -33,7 +33,7 @@ EOT
         $connection = new AMQPConnection('localhost', 5672, 'guest', 'guest');
         $channel = $connection->channel();
 
-        $channel->queue_declare('hello', false, false, false, false);
+        $channel->queue_declare('remaining_urls', false, false, false, false);
 
         echo ' [*] Waiting for messages. To exit press CTRL+C', "\n";
 
@@ -48,7 +48,7 @@ EOT
         };
 
         $channel->basic_qos(null, 1, null);
-        $channel->basic_consume('hello', '', false, false, false, false, $callback);
+        $channel->basic_consume('remaining_urls', '', false, false, false, false, $callback);
 
         while(count($channel->callbacks)) {
             $channel->wait();

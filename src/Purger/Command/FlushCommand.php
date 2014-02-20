@@ -30,13 +30,13 @@ EOT
         // 
         $connection = new AMQPConnection('localhost', 5672, 'guest', 'guest');
         $channel = $connection->channel();
-        $channel->queue_declare('hello', false, false, false, false);
+        $channel->queue_declare('remaining_urls', false, false, false, false);
 
         $urls = file($input->getArgument('source'));
 
         foreach ($urls as $currUrl) {
             $msg = new AMQPMessage($currUrl);
-            $channel->basic_publish($msg, '', 'hello');
+            $channel->basic_publish($msg, '', 'remaining_urls');
         }
         echo ' [x] Sent '.count($urls).' urls'.PHP_EOL;
 
