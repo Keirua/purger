@@ -22,17 +22,12 @@ EOT
     }
 
     private function flushUrl ($url){
-        // $curl = curl_init($url);
-        // curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PURGE");
-        // curl_exec($curl);
+        echo 'flushing...'.$url.PHP_EOL;
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PURGE");
+        curl_exec($curl);
     }
 
-    private function waitMax ($duration, $delta){
-        $sleepDuration = max(0, $duration - $delta);
-        echo $sleepDuration.PHP_EOL;
-
-        sleep(max(0, $duration - $delta));
-    }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         $connection = new AMQPConnection('localhost', 5672, 'guest', 'guest');
@@ -44,15 +39,16 @@ EOT
 
         $callback = function($msg) {
             echo " Received ", $msg->body, "\n";
-            $t0 = microtime(true);
+            $minWaitDuration = 2;
             $this->flushUrl($msg->body);
-            $t1 = microtime(true);
-            $delta = $t1 - $t0;
-            $this->waitMax(2000000, $delta);
+            time_sleep_until(microtime(true) + $minWaitDuration);
+
             echo " [x] Flushed ", $msg->body, "\n";
+            $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
         };
 
-        $channel->basic_consume('hello', '', false, true, false, false, $callback);
+        $channel->basic_qos(null, 1, null);
+        $channel->basic_consume('hello', '', false, false, false, false, $callback);
 
         while(count($channel->callbacks)) {
             $channel->wait();
