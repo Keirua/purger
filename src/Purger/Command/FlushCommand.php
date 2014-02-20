@@ -17,6 +17,7 @@ class FlushCommand extends Command {
              ->setDefinition(
                     array(
                         new InputArgument('source', InputOption::VALUE_REQUIRED, 'The file name containing all the urls', null),
+                        new InputArgument('regex', InputOption::VALUE_OPTIONAL, 'A regex that urls have to match in order to be flushed', null),
                     )
                 )
              ->setHelp(<<<EOT
@@ -26,14 +27,30 @@ EOT
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        // echo var_dump($input->getArgument('source'));
-        // 
         $connection = new AMQPConnection('localhost', 5672, 'guest', 'guest');
         $channel = $connection->channel();
-        $channel->queue_declare('hello', false, false, false, false);
-        $msg = new AMQPMessage('Hello World!');
-        $channel->basic_publish($msg, '', 'hello');
-        echo " [x] Sent 'Hello World!'\n";
+        $channel->queue_declare('remaining_urls', false, false, false, false);
+
+        $regex = $input->getArgument('regex');
+        $urls = file($input->getArgument('source'));
+        if (null != $regex){
+            $urls = array_filter(
+                        $urls,
+                        function($v) use ($regex) {
+                            return preg_match($regex[0], $v);
+                        }
+                    );
+        }
+        else {
+            echo 'No regex to match, every URL are used'.PHP_EOL;
+        }
+
+        foreach ($urls as $currUrl) {
+            $msg = new AMQPMessage($currUrl);
+            $channel->basic_publish($msg, '', 'remaining_urls');
+        }
+        echo ' [x] Sent '.count($urls).' urls'.PHP_EOL;
+
         $channel->close();
         $connection->close();
     }
