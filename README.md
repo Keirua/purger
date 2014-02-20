@@ -1,1 +1,23 @@
-README.md
+# Purger
+
+Performs purge requests on a set of URLs. 
+
+## Usage
+
+Install the required packages thanks to composer (https://getcomposer.org). You need to have a RabbitMQ server up and running.
+
+    curl -sS https://getcomposer.org/installer | php
+    php composer.phar install
+
+Then, start a server
+
+    ./console listen
+
+Now, you can start sending urls to the flusher thanks to
+
+    ./console flush filename
+
+where filename is the location of a file containing the urls that you want to flush, one url on each line.
+
+
+
