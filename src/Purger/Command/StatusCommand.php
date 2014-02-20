@@ -7,7 +7,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class StatusCommand extends Command {
+class StatusCommand extends ConsoleCommand {
     protected function configure() {
         $this->setName("status")
              ->setDescription("Returns the current status for the requested flushing of URLs")

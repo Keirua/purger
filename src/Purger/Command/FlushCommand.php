@@ -1,7 +1,6 @@
 <?php
 namespace Purger\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -10,7 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class FlushCommand extends Command {
+class FlushCommand extends ConsoleCommand {
     protected function configure() {
         $this->setName("flush")
              ->setDescription("Flush a given set of URLs, based on a regex or not")
@@ -26,13 +25,8 @@ EOT
              );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
-        $connection = new AMQPConnection('localhost', 5672, 'guest', 'guest');
-        $channel = $connection->channel();
-        $channel->queue_declare('remaining_urls', false, false, false, false);
-
-        $regex = $input->getArgument('regex');
-        $urls = file($input->getArgument('source'));
+    private function getUrlList ($filename, $regex){
+        $urls = file($filename);
         if (null != $regex){
             $urls = array_filter(
                         $urls,
@@ -44,14 +38,27 @@ EOT
         else {
             echo 'No regex to match, every URL are used'.PHP_EOL;
         }
+        return $urls;
+    }
 
+    private function sendUrlsToQueue($urls){
         foreach ($urls as $currUrl) {
             $msg = new AMQPMessage($currUrl);
-            $channel->basic_publish($msg, '', 'remaining_urls');
+            $this->channel->basic_publish($msg, '', ConsoleCommand::QUEUE_NAME);
         }
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output) {
+        $this->createQueue ();
+
+        $regex = $input->getArgument('regex');
+        $filename = $input->getArgument('source');
+
+        $urls = $this->getUrlList ($filename, $regex);
+        $this->sendUrlsToQueue ($urls);
+        
         echo ' [x] Sent '.count($urls).' urls'.PHP_EOL;
 
-        $channel->close();
-        $connection->close();
+        $this->closeQueue();
     }
 }
