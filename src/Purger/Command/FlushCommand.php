@@ -7,10 +7,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class TestCommand extends Command {
+class FlushCommand extends Command {
     protected function configure() {
-        $this->setName("test")
-             ->setDescription("Sample description for our command named test")
+        $this->setName("flush")
+             ->setDescription("Flush a given set of URLs, based on a regex or not")
              ->setDefinition(array(
              ))
              ->setHelp(<<<EOT
