@@ -49,16 +49,20 @@ EOT
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $this->createQueue ();
-
         $regex = $input->getArgument('regex');
         $filename = $input->getArgument('source');
 
-        $urls = $this->getUrlList ($filename, $regex);
-        $this->sendUrlsToQueue ($urls);
-        
-        echo ' [x] Sent '.count($urls).' urls'.PHP_EOL;
+        $urls = array ();
+        if (!empty ($filename)) {
+            $urls = $this->getUrlList ($filename, $regex);
+        }
 
-        $this->closeQueue();
+        if (count ($urls) >0){
+            $this->createQueue ();
+            $this->sendUrlsToQueue ($urls);
+            echo ' [x] Sent '.count($urls).' urls'.PHP_EOL;
+
+            $this->closeQueue();
+        }
     }
 }

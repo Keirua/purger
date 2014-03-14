@@ -22,8 +22,13 @@ class ConsoleCommand extends Command {
     }
 
     protected function createQueue (){
+        $this->connection = new AMQPConnection(
+            $this->config['purger']['host'],
+            $this->config['purger']['port'],
+            $this->config['purger']['login'],
+            $this->config['purger']['password']
+        );
 
-        $this->connection = new AMQPConnection('localhost', 5672, 'guest', 'guest');
         $this->channel = $this->connection->channel();
         $this->channel->queue_declare(self::QUEUE_NAME, false, false, false, false);
     }
