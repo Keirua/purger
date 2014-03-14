@@ -12,9 +12,11 @@ class BlankCommand extends ConsoleCommand {
         $this->setName("blank")
              ->setDescription("Demo command")
              ;
+
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
+        echo var_dump($this->config);
         echo "plop";
     }
 }
