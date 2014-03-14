@@ -1,8 +1,11 @@
 {
     "require": {
-        "symfony/console" : "2.0.*",
-        "symfony/yaml" : "2.0.*",
-        "videlalvaro/php-amqplib": "v2.1.0"
+        "symfony/console" : "2.4",
+        "symfony/yaml" : "2.4",
+        "symfony/config" : "2.4",
+        "symfony/dependency-injection" : "2.4",
+        "videlalvaro/php-amqplib": "v2.1.0",
+        "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
         "psr-0": {"Purger": "src/"}

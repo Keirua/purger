@@ -1,0 +1,14 @@
+<parameters>
+    <parameter key="mailer.transport">sendmail</parameter>
+</parameters>
+<services>
+    <service id="mailer" class="Mailer">
+        <argument>%mailer.transport%</argument>
+    </service>
+
+    <service id="newsletter_manager" class="NewsletterManager">
+        <call method="setMailer">
+             <argument type="service" id="mailer" />
+        </call>
+    </service>
+</services>
