@@ -10,6 +10,7 @@ $app->addCommands(array(
     new Purger\Command\FlushCommand(),
     new Purger\Command\ListenCommand(),
     new Purger\Command\StatusCommand(),
+    new Purger\Command\BlankCommand(),
 ));
 
 $app->run();

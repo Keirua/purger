@@ -7,15 +7,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class StatusCommand extends ConsoleCommand {
+class BlankCommand extends ConsoleCommand {
     protected function configure() {
-        $this->setName("status")
-             ->setDescription("Returns the current status for the requested flushing of URLs")
+        $this->setName("blank")
+             ->setDescription("Demo command")
              ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        // Not pretty, I agree. However, there is actually no way to do this through the API
-        system ('sudo rabbitmqctl list_queues | grep remaining_urls');
+        echo "plop";
     }
 }

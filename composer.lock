@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "67ada9b5cdf2ecbb95fb5bb0d10454bb",
+    "hash": "b99f06264894b6a49f35a9232b3c5e55",
     "packages": [
         {
             "name": "symfony/console",
@@ -48,6 +48,50 @@
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
             "time": "2013-02-27 09:08:35"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v2.0.25",
+            "target-dir": "Symfony/Component/Yaml",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Yaml.git",
+                "reference": "c508a879829976e30f05e16b96a7ed024ee82ce1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/c508a879829976e30f05e16b96a7ed024ee82ce1",
+                "reference": "c508a879829976e30f05e16b96a7ed024ee82ce1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Yaml": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "http://symfony.com",
+            "time": "2013-01-18 09:52:07"
         },
         {
             "name": "videlalvaro/php-amqplib",

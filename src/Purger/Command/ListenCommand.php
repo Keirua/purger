@@ -6,12 +6,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Purger\Config;
 
 use PhpAmqpLib\Connection\AMQPConnection;
 
-class ListenCommand extends ConsoleCommand {
+use Purger\Config;
 
+class ListenCommand extends ConsoleCommand {
     protected function configure() {
         $this->setName("listen")
              ->setDescription("Starts a listener for flushing URLs")
