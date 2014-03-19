@@ -1,0 +1,21 @@
+parameters:
+  console_commands :
+    - @command_blank
+    - @command_flush
+    - @command_listen
+    - @command_status
+
+services:
+  command_blank:
+    class: Purger\Command\BlankCommand
+  command_flush:
+    class: Purger\Command\ListenCommand
+  command_listen:
+    class: Purger\Command\StatusCommand
+  command_status:
+    class: Purger\Command\BlankCommand
+
+  console:
+    class: Symfony\Component\Console\Application
+    calls:
+      - [addCommands, [ %console_commands% ] ]
