@@ -18,7 +18,7 @@ class ConsoleCommand extends Command {
         parent::__construct();
 
         $yaml = new Parser();
-        $this->config = $yaml->parse(file_get_contents("config.yml"));
+        $this->config = $yaml->parse(file_get_contents("app/config.yml"));
     }
 
     protected function createQueue (){
