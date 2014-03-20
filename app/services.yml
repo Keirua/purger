@@ -9,11 +9,11 @@ services:
   command_blank:
     class: Purger\Command\BlankCommand
   command_flush:
-    class: Purger\Command\ListenCommand
+    class: Purger\Command\FlushCommand
   command_listen:
-    class: Purger\Command\StatusCommand
+    class: Purger\Command\ListenCommand
   command_status:
-    class: Purger\Command\BlankCommand
+    class: Purger\Command\StatusCommand
 
   console:
     class: Symfony\Component\Console\Application
