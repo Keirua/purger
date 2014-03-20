@@ -24,3 +24,9 @@ where filename is the location of a file containing the urls that you want to fl
 If you wannt to know how many urls still remain in the queue and have to be flushed, just run :
 
     ./console status
+
+## Unit tests
+
+Unit tests can be run using 
+
+     ./vendor/bin/phpunit tests
