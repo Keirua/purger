@@ -1,4 +1,5 @@
 parameters:
+  config_filename : "app/config.yml"
   console_commands :
     - @command_blank
     - @command_flush
@@ -6,15 +7,25 @@ parameters:
     - @command_status
 
 services:
+  config:
+    class: Purger\Config\Config
+    arguments : [ %config_filename% ]
   command_blank:
     class: Purger\Command\BlankCommand
+    calls:
+      - [setConfig,  [@config]]
   command_flush:
     class: Purger\Command\FlushCommand
+    calls:
+      - [setConfig,  [@config]]
   command_listen:
     class: Purger\Command\ListenCommand
+    calls:
+      - [setConfig,  [@config]]
   command_status:
     class: Purger\Command\StatusCommand
-
+    calls:
+      - [setConfig,  [@config]]
   console:
     class: Symfony\Component\Console\Application
     calls:

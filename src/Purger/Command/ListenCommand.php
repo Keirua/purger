@@ -9,8 +9,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 use PhpAmqpLib\Connection\AMQPConnection;
 
-use Purger\Config;
-
 class ListenCommand extends ConsoleCommand {
     protected function configure() {
         $this->setName("listen")

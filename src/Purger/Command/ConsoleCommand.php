@@ -16,17 +16,14 @@ class ConsoleCommand extends Command {
 
     public function __construct() {
         parent::__construct();
-
-        $yaml = new Parser();
-        $this->config = $yaml->parse(file_get_contents("app/config.yml"));
     }
 
     protected function createQueue (){
         $this->connection = new AMQPConnection(
-            $this->config['purger']['host'],
-            $this->config['purger']['port'],
-            $this->config['purger']['login'],
-            $this->config['purger']['password']
+            $this->config->get('host'),
+            $this->config->get('port'),
+            $this->config->get('login'),
+            $this->config->get('password')
         );
 
         $this->channel = $this->connection->channel();
@@ -36,5 +33,9 @@ class ConsoleCommand extends Command {
     protected function closeQueue (){
         $this->channel->close();
         $this->connection->close();
+    }
+
+    public function setConfig ($config){
+        $this->config = $config;
     }
 }
